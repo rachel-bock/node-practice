@@ -44,22 +44,22 @@ app.get('/local/:zipcode', (req, res)=> {
   // test req.params.zipcode to ensure it is a 5-digit string.
   if (req.params.zipcode.length !== 5) return res.status(404).send('Zip code must have 5 characters.');
   // test if the characters in the string are numbers or letters.  If letters then throw errors.
-  
+
 
   let place = getCoordinatesByZip(req.params.zipcode)
     .then(data => {
       // Check that the data has a latitude and longitude before fetching the weather information.
       return getWeather(data)
       .then(weather => {
-        return weatherOutput = {
+        weatherOutput = {
           "city": weather.name,
           "conditions": weather.weather[0].description, 
           "high_temp": parseInt(weather.main.temp_max), 
           "low_temp": parseInt(weather.main.temp_min)
         }
+        res.status(200).send(JSON.stringify(weatherOutput));
       })
     });
-  res.status(200).send(weatherOutput);
 });
 
 app.listen(port, () => {
