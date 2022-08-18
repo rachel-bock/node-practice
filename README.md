@@ -12,6 +12,7 @@ The endpoint is located at http://localhost:3001/local/{zipcode}.  This will cre
 
 - The biggest challenge in preparing this API was that the weather information was based on the latitude and longitude of a location rather than the zip code. Being since the input from the user was provided in the form of a zip code, I needed to fetch the latitude and longitude information of that zip code before I could fetch the weather information.
 - An improvement that I'd like to make is to validate the user input.  Right now, I only check for a 5-character length string.  I would also like to check that the characters follow the format XXXXX where X represents a number from 0 to 9.  In this validation, I would use a regular expression to check the contents of the string.  I could use Joi to validate the input.
+- I would also like to add additional testing to this application.
 
 ## Wins
  - There is an error message returned if the length of the string is not 5 characters.
