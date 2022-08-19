@@ -1,10 +1,9 @@
-import Joi from 'joi';
 import express from 'express';
 import fetch from 'node-fetch';
 
 const app = express();
 const port = process.env.PORT || 3000;
-const myKey = process.env.APIKEY;
+
 const getCoordinatesByZip = (zip) => {
   return fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zip},US&appid=${process.env.APIKEY}`)
     .then(response => {
