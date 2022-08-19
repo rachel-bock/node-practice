@@ -39,6 +39,10 @@ app.get('/', (request, response) => {
   response.status(200).send('To access weather information, please go to /local/{zip code}.  Thank you for visiting.');
 });
 
+app.get('/local', (request, response) => {
+  response.status(200).send('To access weather information, please go to /local/{zip code}.  Thank you for visiting.');
+});
+
 app.get('/local/:zipcode', (req, res)=> {
 
   // test req.params.zipcode to ensure it is a 5-digit string.
