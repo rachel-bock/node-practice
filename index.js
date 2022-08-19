@@ -36,17 +36,20 @@ let weatherOutput = {};
 app.use(express.json()); 
 
 app.get('/', (request, response) => {
-  response.send('To access weather information, please go to /local/{zip code}.  Thank you for visiting.');
+  response.status(200).send('To access weather information, please go to /local/{zip code}.  Thank you for visiting.');
 });
 
 app.get('/local/:zipcode', (req, res)=> {
 
   // test req.params.zipcode to ensure it is a 5-digit string.
   if (req.params.zipcode.length !== 5) return res.status(400).send('Zip code must have 5 characters.');
-  // test if the characters in the string are numbers or letters.  If letters then throw errors.
-  let schema = Joi.string().pattern(new RegExp(`^[0-9]`)).required();
 
-  
+  // test if the characters in the string are numbers or letters.  If letters then throw errors.
+  let schema = Joi.string().pattern(new RegExp(`^[0-9]{5}`)).required();
+  let result = schema.validate(req.params.zipcode);
+
+  if (result.error) return res.status(400).send('Zip code did not match a 5-digit numeric pattern and is required.');
+
   let place = getCoordinatesByZip(req.params.zipcode)
     .then(data => {
       // Check that the data has a latitude and longitude before fetching the weather information.
