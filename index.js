@@ -1,4 +1,5 @@
-import express from 'express';
+import Joi from 'joi';
+import express, { json } from 'express';
 import fetch from 'node-fetch';
 
 const app = express();
@@ -41,10 +42,11 @@ app.get('/', (request, response) => {
 app.get('/local/:zipcode', (req, res)=> {
 
   // test req.params.zipcode to ensure it is a 5-digit string.
-  if (req.params.zipcode.length !== 5) return res.status(404).send('Zip code must have 5 characters.');
+  if (req.params.zipcode.length !== 5) return res.status(400).send('Zip code must have 5 characters.');
   // test if the characters in the string are numbers or letters.  If letters then throw errors.
+  let schema = Joi.string().pattern(new RegExp(`^[0-9]`)).required();
 
-
+  
   let place = getCoordinatesByZip(req.params.zipcode)
     .then(data => {
       // Check that the data has a latitude and longitude before fetching the weather information.
